@@ -86,8 +86,9 @@ kd.rectangle((2,2,13,3), fill=(223,177,104,255))
 kd.rectangle((18,2,29,3), fill=(223,177,104,255))
 kiosk.save(ASSETS/"Kiosk.png", optimize=True)
 
-objects, stock, catalog = {}, [], []
+objects, buffs, stock, catalog = {}, {}, [], []
 seen_effects = set()
+buff_icon_count = 48
 for i, name in enumerate(COFFEES + TEAS):
     is_tea = i >= 50
     number = i - 49 if is_tea else i + 1
@@ -111,15 +112,20 @@ for i, name in enumerate(COFFEES + TEAS):
         "Type": "Cooking", "Category": -7, "Price": price,
         "Texture": "Mods/{{ModId}}/Drinks", "SpriteIndex": i,
         "Edibility": edibility, "IsDrink": True,
-        "Buffs": [{
-            "Id": item_id + "_Buff", "Duration": duration, "IsDebuff": False,
-            "CustomAttributes": effects
-        }],
+        "Buffs": [{"BuffId": item_id + "_Buff"}],
         "ContextTags": ["drink", "drink_tea" if is_tea else "drink_coffee", "bentleyplayz_more_drinks"]
+    }
+    buffs[item_id + "_Buff"] = {
+        "DisplayName": name + " Boost",
+        "Description": "A distinctive boost from " + name + ".",
+        "Duration": duration * 1000,
+        "IconTexture": "TileSheets\\BuffsIcons",
+        "IconSpriteIndex": i %  buff_icon_count,
+        "Effects": effects
     }
     stock.append({
         "Id": item_id + "_ShopStock", "ItemId": "(O)" + item_id,
-        "Price": price, "AvailableStock": -1
+        "Price": price
     })
     catalog.append({
         "id": item_id, "name": name, "type": kind, "price": price,
@@ -146,8 +152,12 @@ content = {
  "Changes":[
   {"LogName":"Load 100 unique drink sprites","Action":"Load","Target":"Mods/{{ModId}}/Drinks","FromFile":"assets/Drinks.png"},
   {"LogName":"Add 50 coffees and 50 teas","Action":"EditData","Target":"Data/Objects","Entries":objects},
-  {"LogName":"Add all drinks to the More Drinks kiosk shop","Action":"EditData","Target":"Data/Shops","Entries":{
+  {"LogName":"Add 100 unique custom drink buffs","Action":"EditData","Target":"Data/Buffs","Entries":buffs},
+  {"LogName":"Add all drinks to the More Drinks kiosk shop with unlimited stock","Action":"EditData","Target":"Data/Shops","Entries":{
     "BentleyPlayz_MoreDrinks":{"Currency":0,"Items":stock}
+  }},
+  {"LogName":"Play Gus's one-time sponsored coffee and tea introduction on the first Saloon visit","Action":"EditData","Target":"Data/Events/Saloon","Entries":{
+    "BentleyPlayz_MoreDrinks_GusIntro/Time 600 2600/!SawEvent BentleyPlayz_MoreDrinks_GusIntro":"continue/16 18/farmer 15 20 2 Gus 16 18 2/skippable/pause 500/faceDirection Gus 2/faceDirection farmer 0/speak Gus \\"Hey, @! I've got some exciting news for you!\\"/pause 500/speak Gus \\"The Stardrop Saloon has a brand-new coffee and tea menu!\\"/pause 500/speak Gus \\"We got sponsored by Bentley Playz! He taught me how to make all of these new drinks.\\"/pause 500/speak Gus \\"There are 50 coffees and 50 teas, and every one has its own special boost.\\"/pause 500/speak Gus \\"You can try them all at the new kiosk right here in the Saloon!\\"/pause 500/emote Gus 20/end"
   }},
   {"LogName":"Place the two-tile kiosk at the specified Saloon bar-front coordinates","Action":"EditMap","Target":"Maps/Saloon",
    "FromFile":"assets/kiosk-overlay.tmx","FromArea":{"X":0,"Y":0,"Width":2,"Height":1},
@@ -167,9 +177,9 @@ manifest = {
 (OUT/"README.md").write_text(
  "# BentleyPlayz More Drinks\\n\\nOne combined SMAPI mod folder with a Code DLL and Content Patcher content. "
  "Adds 50 coffees and 50 teas, each with its own 16x16 sprite, positive Edibility, and a unique buff profile. "
- "The custom shop is opened by the two-tile Saloon kiosk at (16,19) and (17,19).\\n",
+ "The custom shop has unlimited stock and is opened by the two-tile Saloon kiosk at (16,19) and (17,19). Gus introduces the menu in a one-time-per-save event on the first Saloon visit.\\n",
  encoding="utf-8")
-assert len(objects)==len(stock)==len(catalog)==100
+assert len(objects)==len(buffs)==len(stock)==len(catalog)==100
 assert len(seen_effects)==100
 assert len(list(ASSETS.glob("*.png")))==2
 print("Generated 100 unique drink objects, 100 shop entries, 100 unique buff profiles.")
