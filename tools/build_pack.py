@@ -217,8 +217,8 @@ content = {
     "BentleyPlayz_MoreDrinks_GusIntro/Time 600 2600/!SawEvent BentleyPlayz_MoreDrinks_GusIntro": 'continue/16 18/farmer 14 21 2 Gus 18 18 2/skippable/pause 500/faceDirection Gus 2/faceDirection farmer 0/speak Gus "Hey, @! I have some exciting news for you!"/pause 500/speak Gus "The Stardrop Saloon has a brand-new coffee and tea menu!"/pause 500/speak Gus "We got sponsored by Bentley Playz! He taught me how to make all of these new drinks."/pause 500/speak Gus "There are 50 coffees and 50 teas, and every one has its own special boost."/pause 500/speak Gus "You can try them all at the new kiosk right here in the Saloon!"/pause 500/emote Gus 20/end'
   }},
   {"LogName":"Place the two-by-one coffee and tea station in the Saloon","Action":"EditMap","Target":"Maps/Saloon",
-   "FromFile":"assets/kiosk-overlay.tmx","FromArea":{"X":0,"Y":0,"Width":2,"Height":2},
-   "ToArea":{"X":16,"Y":19,"Width":2,"Height":2},"PatchMode":"Overlay"}
+   "FromFile":"assets/kiosk-overlay.tmx","FromArea":{"X":0,"Y":0,"Width":2,"Height":1},
+   "ToArea":{"X":16,"Y":19,"Width":2,"Height":1},"PatchMode":"Overlay"}
  ]
 }
 manifest = {
