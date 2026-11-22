@@ -1,0 +1,28 @@
+name: Build More Drinks Content Pack
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/build_pack.py"
+      - ".github/workflows/build.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Pillow
+        run: python -m pip install --upgrade pip pillow
+      - name: Build and validate pack
+        run: python tools/build_pack.py
+      - name: Upload Content Patcher pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: BentleyPlayz_MoreDrinks_ContentPack
+          path: dist/BentleyPlayz_MoreDrinks_ContentPack.zip
+          if-no-files-found: error
