@@ -1,9 +1,9 @@
 {
-  "Name": "BentleyPlayz More Drinks - Code",
+  "Name": "BentleyPlayz More Drinks",
   "Author": "BentleyPlayz",
   "Version": "1.0.1",
-  "Description": "SMAPI code component for BentleyPlayz More Drinks. Ships in the same mod folder as its Content Patcher content.",
+  "Description": "Adds 50 coffees and 50 teas, with custom buffs, a Saloon drink kiosk, and the HunnyBwat shoutout.",
   "UniqueID": "BentleyPlayz.MoreDrinks",
-  "EntryDll": "BentleyPlayz.MoreDrinks.dll",
+  "EntryDll": "Code/BentleyPlayz.MoreDrinks.dll",
   "MinimumApiVersion": "4.0.0"
 }
