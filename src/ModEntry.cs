@@ -13,6 +13,8 @@ internal sealed class ModEntry : Mod
     private const long MaxLogBytes = 2 * 1024 * 1024;
     private readonly object logLock = new();
     private string diagnosticPath = "";
+    private string lastSmapiLog = "";
+    private bool warnedAboutSmapiLog;
 
     public override void Entry(IModHelper helper)
     {
@@ -24,12 +26,14 @@ internal sealed class ModEntry : Mod
         helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
         helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
         helper.Events.GameLoop.ReturnedToTitle += this.OnReturnedToTitle;
+        helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
 
         this.WriteDiagnostic("INFO", "========== BentleyPlayz More Drinks diagnostic session started ==========");
         this.WriteDiagnostic("INFO", $"Mod version: {this.ModManifest.Version}");
         this.WriteDiagnostic("INFO", $"Runtime: {Environment.Version}; OS: {Environment.OSVersion}");
         this.WriteDiagnostic("INFO", $"Diagnostic file: {this.diagnosticPath}");
-        this.Monitor.Log("BentleyPlayz More Drinks loaded. Automatic diagnostics are being written to Code/diagnostics.log; SMAPI-latest.txt contains the full SMAPI and Content Patcher log.", LogLevel.Info);
+        this.WriteDiagnostic("INFO", $"SMAPI log source: {Path.Combine(Constants.LogDir, "SMAPI-latest.txt")}");
+        this.Monitor.Log("BentleyPlayz More Drinks loaded. Automatic diagnostics are being written to Code/diagnostics.log, including the live SMAPI log stream.", LogLevel.Info);
     }
 
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
@@ -55,6 +59,34 @@ internal sealed class ModEntry : Mod
         this.WriteDiagnostic("INFO", "Returned to title. Save session ended.");
     }
 
+    private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
+    {
+        if (e.Ticks % 120 != 0)
+            return;
+
+        this.RunSafely("SMAPI log capture", () =>
+        {
+            string smapiPath = Path.Combine(Constants.LogDir, "SMAPI-latest.txt");
+            if (!File.Exists(smapiPath))
+                return;
+
+            string current = File.ReadAllText(smapiPath, Encoding.UTF8);
+            string newText;
+            if (current.StartsWith(this.lastSmapiLog, StringComparison.Ordinal))
+                newText = current.Substring(this.lastSmapiLog.Length);
+            else
+            {
+                this.WriteDiagnostic("WARN", "SMAPI log was reset or rotated; starting a fresh capture.");
+                newText = current;
+            }
+
+            this.lastSmapiLog = current;
+            if (!string.IsNullOrEmpty(newText))
+                this.WriteDiagnostic("SMAPI", newText.TrimEnd());
+            this.warnedAboutSmapiLog = false;
+        });
+    }
+
     private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         string details = e.ExceptionObject is Exception ex
@@ -76,8 +108,13 @@ internal sealed class ModEntry : Mod
         }
         catch (Exception ex)
         {
-            this.WriteDiagnostic("ERROR", $"{operation} failed:{Environment.NewLine}{ex}");
-            this.Monitor.Log($"{operation} failed. Details were written to diagnostics.log.", LogLevel.Error);
+            if (operation != "SMAPI log capture" || !this.warnedAboutSmapiLog)
+            {
+                this.WriteDiagnostic("ERROR", $"{operation} failed:{Environment.NewLine}{ex}");
+                this.Monitor.Log($"{operation} failed. Details were written to diagnostics.log.", LogLevel.Error);
+            }
+            if (operation == "SMAPI log capture")
+                this.warnedAboutSmapiLog = true;
         }
     }
 
