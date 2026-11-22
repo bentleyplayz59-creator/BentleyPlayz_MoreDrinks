@@ -65,15 +65,13 @@ internal sealed class ModEntry : Mod
         this.WriteDiagnostic("INFO", "Returned to title. Save session ended.");
     }
 
-    private void OnDayStarted(object? sender, DayStartedEventArgs e)
+    private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
     {
-        this.saloonDoorHoursPatched = false;
-        this.saloonDoorHoursPatched = this.TryApplySaloonDoorHours();
-    }
 
-    private void OnWarped(object? sender, WarpedEventArgs e)
-    {
-        if (string.Equals(e.NewLocation.NameOrUniqueNam
+        if (e.Ticks % 120 != 0)
+            return;
+
+        this.RunSafely("SMAPI log capture", () =>
         {
             string smapiPath = Path.Combine(Constants.LogDir, "SMAPI-latest.txt");
             if (!File.Exists(smapiPath))
