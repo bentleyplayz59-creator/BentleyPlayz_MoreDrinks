@@ -199,6 +199,7 @@ content = {
  "Format":"2.9.0",
  "Changes":[
   {"LogName":"Load 100 unique drink sprites","Action":"Load","Target":"Mods/{{ModId}}/Drinks","FromFile":"assets/Drinks.png"},
+  {"LogName":"Keep the Saloon entrance accessible at all times without changing NPC schedules","Action":"EditMap","Target":"Maps/Town, Maps/Town_spring, Maps/Town_summer, Maps/Town_fall, Maps/Town_winter","MapTiles":[{"Position":{"X":45,"Y":70},"Layer":"Buildings","SetProperties":{"Action":"Warp 14 24 Saloon"}}]},
   {"LogName":"Add 50 coffees and 50 teas","Action":"EditData","Target":"Data/Objects","Entries":objects},
   {"LogName":"Add 100 unique custom drink buffs","Action":"EditData","Target":"Data/Buffs","Entries":buffs},
   {"LogName":"Add all drinks to the More Drinks kiosk shop with unlimited stock","Action":"EditData","Target":"Data/Shops","Entries":{
