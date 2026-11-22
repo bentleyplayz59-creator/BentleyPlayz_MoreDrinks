@@ -1,28 +1,76 @@
-name: Build More Drinks Content Pack
+name: Build BentleyPlayz More Drinks
+
 on:
   push:
     branches: [main]
-    paths:
-      - "tools/build_pack.py"
-      - ".github/workflows/build.yml"
+  pull_request:
+    branches: [main]
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 6
+        uses: actions/setup-dotnet@v4
         with:
-          python-version: "3.12"
-      - name: Install Pillow
-        run: python -m pip install --upgrade pip pillow
-      - name: Build and validate pack
-        run: python tools/build_pack.py
-      - name: Upload Content Patcher pack
+          dotnet-version: 6.0.x
+
+      - name: Set up SMAPI build environment
+        continue-on-error: true
+        uses: Pathoschild/SMAPI-ModBuildWorkflow/add-build-environment@v1
+
+      - name: Restore and compile the SMAPI DLL
+        run: |
+          dotnet restore src/BentleyMoreDrinks.csproj
+          dotnet build src/BentleyMoreDrinks.csproj -c Release --no-restore
+
+      - name: Install Pillow and generate Content Patcher content
+        run: |
+          python -m pip install --upgrade pip pillow
+          python tools/build_pack.py
+
+      - name: Assemble one combined mod folder
+        run: |
+          mkdir -p release/BentleyPlayz_MoreDrinks/Code
+          cp Code/manifest.json release/BentleyPlayz_MoreDrinks/Code/manifest.json
+          cp src/bin/Release/net6.0/BentleyPlayz.MoreDrinks.dll release/BentleyPlayz_MoreDrinks/Code/
+          cp -r dist/BentleyPlayz_MoreDrinks/Content release/BentleyPlayz_MoreDrinks/Content
+          test -f release/BentleyPlayz_MoreDrinks/Code/manifest.json
+          test -f release/BentleyPlayz_MoreDrinks/Code/BentleyPlayz.MoreDrinks.dll
+          test -f release/BentleyPlayz_MoreDrinks/Content/manifest.json
+          test -f release/BentleyPlayz_MoreDrinks/Content/content.json
+          test -f release/BentleyPlayz_MoreDrinks/Content/assets/Drinks.png
+          test -f release/BentleyPlayz_MoreDrinks/Content/assets/Kiosk.png
+          test -f release/BentleyPlayz_MoreDrinks/Content/assets/kiosk-overlay.tmx
+          DLL_COUNT=$(find release/BentleyPlayz_MoreDrinks -name '*.dll' | wc -l)
+          test "$DLL_COUNT" -eq 1
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("release/BentleyPlayz_MoreDrinks")
+          for p in root.rglob("*.json"):
+              json.loads(p.read_text(encoding="utf-8"))
+          cp = json.loads((root/"Content/content.json").read_text(encoding="utf-8"))
+          objs = next(c["Entries"] for c in cp["Changes"] if c["Target"] == "Data/Objects")
+          shop = next(c["Entries"]["BentleyPlayz_MoreDrinks"]["Items"] for c in cp["Changes"] if c["Target"] == "Data/Shops")
+          assert len(objs) == 100 and len(shop) == 100
+          assert all(v["IsDrink"] and v["Edibility"] > 0 for v in objs.values())
+          assert len({tuple(sorted(v["Buffs"][0]["CustomAttributes"].items())) for v in objs.values()}) == 100
+          print("Validated: 100 drinkable objects, 100 shop entries, 100 distinct buff profiles.")
+          PY
+          cd release
+          zip -r BentleyPlayz_MoreDrinks.zip BentleyPlayz_MoreDrinks
+
+      - name: Upload combined mod artifact
         uses: actions/upload-artifact@v4
         with:
-          name: BentleyPlayz_MoreDrinks_ContentPack
-          path: dist/BentleyPlayz_MoreDrinks_ContentPack.zip
+          name: BentleyPlayz_MoreDrinks
+          path: release/BentleyPlayz_MoreDrinks.zip
           if-no-files-found: error
