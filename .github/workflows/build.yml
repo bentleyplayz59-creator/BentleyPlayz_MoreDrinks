@@ -31,6 +31,15 @@ jobs:
           dotnet restore src/BentleyMoreDrinks.csproj
           dotnet build src/BentleyMoreDrinks.csproj -c Release --no-restore
 
+      - name: Verify automatic diagnostics hooks
+        run: |
+          grep -q 'Constants.LogDir' src/ModEntry.cs
+          grep -q 'SMAPI-latest.txt' src/ModEntry.cs
+          grep -q 'UpdateTicked' src/ModEntry.cs
+          grep -q 'diagnostics.log' src/ModEntry.cs
+          grep -q 'UnhandledException' src/ModEntry.cs
+          grep -q 'UnobservedTaskException' src/ModEntry.cs
+
       - name: Install Pillow and generate Content Patcher content
         run: |
           python -m pip install --upgrade pip pillow
