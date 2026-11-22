@@ -48,11 +48,11 @@ jobs:
       - name: Assemble one combined mod folder
         run: |
           mkdir -p release/BentleyPlayz_MoreDrinks/Code
-          cp Code/manifest.json release/BentleyPlayz_MoreDrinks/manifest.json
+          cp Code/manifest.json release/BentleyPlayz_MoreDrinks/Code/manifest.json
           cp src/bin/Release/net6.0/BentleyPlayz.MoreDrinks.dll release/BentleyPlayz_MoreDrinks/Code/
           cp -r dist/BentleyPlayz_MoreDrinks/Content release/BentleyPlayz_MoreDrinks/Content
-          test -f release/BentleyPlayz_MoreDrinks/manifest.json
-          test ! -f release/BentleyPlayz_MoreDrinks/Code/manifest.json
+          test ! -f release/BentleyPlayz_MoreDrinks/manifest.json
+          test -f release/BentleyPlayz_MoreDrinks/Code/manifest.json
           test -f release/BentleyPlayz_MoreDrinks/Code/BentleyPlayz.MoreDrinks.dll
           test -f release/BentleyPlayz_MoreDrinks/Content/manifest.json
           test -f release/BentleyPlayz_MoreDrinks/Content/content.json
@@ -70,10 +70,10 @@ jobs:
           root = Path("release/BentleyPlayz_MoreDrinks")
           for p in root.rglob("*.json"):
               json.loads(p.read_text(encoding="utf-8"))
-          main_manifest = json.loads((root/"manifest.json").read_text(encoding="utf-8"))
-          assert main_manifest["EntryDll"] == "Code/BentleyPlayz.MoreDrinks.dll"
-          assert (root/main_manifest["EntryDll"]).is_file()
-          assert not (root/"Code/manifest.json").exists()
+          main_manifest = json.loads((root/"Code/manifest.json").read_text(encoding="utf-8"))
+          assert main_manifest["EntryDll"] == "BentleyPlayz.MoreDrinks.dll"
+          assert (root/"Code"/main_manifest["EntryDll"]).is_file()
+          assert not (root/"manifest.json").exists()
           assert (root/"Content/manifest.json").is_file()
           cp = json.loads((root/"Content/content.json").read_text(encoding="utf-8"))
           objs = next(c["Entries"] for c in cp["Changes"] if c["Target"] == "Data/Objects")
