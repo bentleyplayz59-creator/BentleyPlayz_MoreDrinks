@@ -188,7 +188,7 @@ content = {
   }},
   {"LogName":"Place the three-by-two drinks counter in the Saloon","Action":"EditMap","Target":"Maps/Saloon",
    "FromFile":"assets/kiosk-overlay.tmx","FromArea":{"X":0,"Y":0,"Width":3,"Height":2},
-   "ToArea":{"X":15,"Y":18,"Width":3,"Height":2},"PatchMode":"Overlay"}
+   "ToArea":{"X":15,"Y":19,"Width":3,"Height":2},"PatchMode":"Overlay"}
  ]
 }
 manifest = {
@@ -204,7 +204,7 @@ manifest = {
 (OUT/"README.md").write_text(
  "# BentleyPlayz More Drinks\\n\\nOne combined SMAPI mod folder with a Code DLL and Content Patcher content. "
  "Adds 50 coffees and 50 teas, each with its own 16x16 sprite, positive Edibility, and a unique buff profile. "
- "The custom shop has unlimited stock and is opened by the two-tile Saloon kiosk at (16,19) and (17,19). Gus introduces the menu in a one-time-per-save event on the first Saloon visit.\\n",
+ "The custom shop has unlimited stock and is opened by a three-tile-wide vanilla Saloon drinks counter at (15,19) through (17,20). Gus introduces the menu in a one-time-per-save event on the first Saloon visit.\\n",
  encoding="utf-8")
 assert len(objects)==len(buffs)==len(stock)==len(catalog)==100
 assert len(seen_effects)==100
