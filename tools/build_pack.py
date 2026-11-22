@@ -71,12 +71,13 @@ for i in range(100):
     sheet.alpha_composite(sprite, ((i % 10) * 16, (i // 10) * 16))
 sheet.save(ASSETS / "Drinks.png", optimize=True)
 
-# Three-tile-wide, two-tile-tall drinks counter, cropped from the
-# vanilla townInterior shop-display tilesheet.
+# Two-by-two serving counter assembled from the original Saloon bar tiles.
+# These are the same vanilla tiles used by the Saloon's existing bar:
+# top row tile IDs 918/919 and front row tile IDs 950/951.
 vanilla_interior = Image.open(ROOT / "WHITE_COKE" / ".._.._.._.._.._.._.._.._Maps_townInterior.png").convert("RGBA")
 assert vanilla_interior.size == (512, 1088)
-kiosk = vanilla_interior.crop((224, 896, 272, 928))
-assert kiosk.size == (48, 32)
+kiosk = vanilla_interior.crop((336, 448, 368, 480))
+assert kiosk.size == (32, 32)
 kiosk.save(ASSETS / "Kiosk.png", optimize=True)
 
 objects, buffs, stock, catalog = {}, {}, [], []
@@ -128,16 +129,16 @@ for i, name in enumerate(COFFEES + TEAS):
     })
 
 # Tiny overlay map; Content Patcher copies its Buildings layer and custom tilesheet into Maps/Saloon.
-root = ET.Element("map", {"version":"1.4","tiledversion":"1.4.2","orientation":"orthogonal","renderorder":"right-down","width":"3","height":"2","tilewidth":"16","tileheight":"16","infinite":"0","nextlayerid":"2","nextobjectid":"1"})
-ts = ET.SubElement(root,"tileset",{"firstgid":"1","name":"z_bentley_more_drinks_kiosk","tilewidth":"16","tileheight":"16","tilecount":"6","columns":"3"})
-ET.SubElement(ts,"image",{"source":"Kiosk.png","width":"48","height":"32"})
-for tile_id in ("0","1","2","3","4","5"):
+root = ET.Element("map", {"version":"1.4","tiledversion":"1.4.2","orientation":"orthogonal","renderorder":"right-down","width":"2","height":"2","tilewidth":"16","tileheight":"16","infinite":"0","nextlayerid":"2","nextobjectid":"1"})
+ts = ET.SubElement(root,"tileset",{"firstgid":"1","name":"z_bentley_more_drinks_kiosk","tilewidth":"16","tileheight":"16","tilecount":"4","columns":"2"})
+ET.SubElement(ts,"image",{"source":"Kiosk.png","width":"32","height":"32"})
+for tile_id in ("0","1","2","3"):
     t=ET.SubElement(ts,"tile",{"id":tile_id})
     props=ET.SubElement(t,"properties")
     ET.SubElement(props,"property",{"name":"Action","value":"OpenShop BentleyPlayz_MoreDrinks none"})
 layer=ET.SubElement(root,"layer",{"id":"1","name":"Buildings","width":"3","height":"2"})
 data=ET.SubElement(layer,"data",{"encoding":"csv"})
-data.text="1,2,3,4,5,6"
+data.text="1,2,3,4"
 ET.ElementTree(root).write(ASSETS/"kiosk-overlay.tmx",encoding="utf-8",xml_declaration=True)
 
 content = {
@@ -186,9 +187,9 @@ content = {
   {"LogName":"Play Gus's one-time sponsored coffee and tea introduction on the first Saloon visit","Action":"EditData","Target":"Data/Events/Saloon","Entries":{
     "BentleyPlayz_MoreDrinks_GusIntro/Time 600 2600/!SawEvent BentleyPlayz_MoreDrinks_GusIntro": 'continue/16 18/farmer 15 20 2 Gus 17 18 2/skippable/pause 500/faceDirection Gus 2/faceDirection farmer 0/speak Gus "Hey, @! I have some exciting news for you!"/pause 500/speak Gus "The Stardrop Saloon has a brand-new coffee and tea menu!"/pause 500/speak Gus "We got sponsored by Bentley Playz! He taught me how to make all of these new drinks."/pause 500/speak Gus "There are 50 coffees and 50 teas, and every one has its own special boost."/pause 500/speak Gus "You can try them all at the new kiosk right here in the Saloon!"/pause 500/emote Gus 20/end'
   }},
-  {"LogName":"Place the three-by-two drinks counter in the Saloon","Action":"EditMap","Target":"Maps/Saloon",
-   "FromFile":"assets/kiosk-overlay.tmx","FromArea":{"X":0,"Y":0,"Width":3,"Height":2},
-   "ToArea":{"X":15,"Y":19,"Width":3,"Height":2},"PatchMode":"Overlay"}
+  {"LogName":"Place the two-by-two drinks counter in the Saloon","Action":"EditMap","Target":"Maps/Saloon",
+   "FromFile":"assets/kiosk-overlay.tmx","FromArea":{"X":0,"Y":0,"Width":2,"Height":2},
+   "ToArea":{"X":16,"Y":19,"Width":2,"Height":2},"PatchMode":"Overlay"}
  ]
 }
 manifest = {
@@ -204,10 +205,10 @@ manifest = {
 (OUT/"README.md").write_text(
  "# BentleyPlayz More Drinks\\n\\nOne combined SMAPI mod folder with a Code DLL and Content Patcher content. "
  "Adds 50 coffees and 50 teas, each with its own 16x16 sprite, positive Edibility, and a unique buff profile. "
- "The custom shop has unlimited stock and is opened by a three-tile-wide vanilla Saloon drinks counter at (15,19) through (17,20). Gus introduces the menu in a one-time-per-save event on the first Saloon visit.\\n",
+ "The custom shop has unlimited stock and is opened by a two-by-two vanilla Saloon bar counter at (16,19) through (17,20). Gus introduces the menu in a one-time-per-save event on the first Saloon visit.\\n",
  encoding="utf-8")
 assert len(objects)==len(buffs)==len(stock)==len(catalog)==100
 assert len(seen_effects)==100
 assert len(list(ASSETS.glob("*.png")))==2
 print("Generated 100 unique drink objects, 100 shop entries, 100 unique buff profiles.")
-print("Generated Drinks.png (160x160), Kiosk.png (48x32), villager dialogue, and kiosk-overlay.tmx.")
+print("Generated Drinks.png (160x160), Kiosk.png (32x32), villager dialogue, and kiosk-overlay.tmx.")
