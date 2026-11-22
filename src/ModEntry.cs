@@ -16,8 +16,6 @@ internal sealed class ModEntry : Mod
     private string diagnosticPath = "";
     private string lastSmapiLog = "";
     private bool warnedAboutSmapiLog;
-    private bool saloonDoorHoursPatched;
-    private bool warnedAboutSaloonDoorPatch;
 
     public override void Entry(IModHelper helper)
     {
@@ -28,8 +26,6 @@ internal sealed class ModEntry : Mod
 
         helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
         helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
-        helper.Events.GameLoop.DayStarted += this.OnDayStarted;
-        helper.Events.Player.Warped += this.OnWarped;
         helper.Events.GameLoop.ReturnedToTitle += this.OnReturnedToTitle;
         helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
 
@@ -57,8 +53,6 @@ internal sealed class ModEntry : Mod
     private void OnSaveLoaded(object? sender, SaveLoadedEventArgs e)
     {
         this.WriteDiagnostic("INFO", "Save loaded. Runtime diagnostics are active for this session.");
-        this.saloonDoorHoursPatched = false;
-        this.saloonDoorHoursPatched = this.TryApplySaloonDoorHours();
         this.RunSafely("HunnyBwat shoutout GUI", () =>
         {
             Game1.drawObjectDialogue("SHOUTOUT TO HUNNYBWAT!\n\nA special shoutout to HunnyBwat, the Twitch streamer, for inspiring this drinks collection. Thanks for supporting the Stardew Valley community!");
@@ -79,87 +73,7 @@ internal sealed class ModEntry : Mod
 
     private void OnWarped(object? sender, WarpedEventArgs e)
     {
-        if (string.Equals(e.NewLocation.NameOrUniqueName, "Town", StringComparison.OrdinalIgnoreCase))
-        {
-            this.saloonDoorHoursPatched = this.TryApplySaloonDoorHours();
-        }
-    }
-
-    /// <summary>
-    /// Keep the vanilla Saloon entrance accessible at all times, including festival days.
-    /// Replace only the Saloon door's LockedDoorWarp action with a normal Warp,
-    /// preserving its original destination while leaving the rest of Town untouched.
-    /// </summary>
-    private bool TryApplySaloonDoorHours()
-    {
-        try
-        {
-            StardewValley.GameLocation? town = Game1.getLocationFromName("Town");
-            if (town?.Map == null)
-                return false;
-
-            var buildings = town.Map.GetLayer("Buildings");
-            bool foundSaloonDoor = false;
-            int changedTiles = 0;
-
-            for (int y = 0; y < buildings.LayerHeight; y++)
-            {
-                for (int x = 0; x < buildings.LayerWidth; x++)
-                {
-                    string? action = town.doesTileHaveProperty(x, y, "Action", "Buildings");
-                    if (string.IsNullOrWhiteSpace(action))
-                        continue;
-
-                    string[] parts = action.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                    bool isLockedDoorWarp = parts.Length >= 6
-                        && string.Equals(parts[0], "LockedDoorWarp", StringComparison.OrdinalIgnoreCase);
-                    bool isAlwaysOpenWarp = parts.Length >= 4
-                        && string.Equals(parts[0], "Warp", StringComparison.OrdinalIgnoreCase);
-                    if ((!isLockedDoorWarp && !isAlwaysOpenWarp)
-                        || !string.Equals(parts[3], "Saloon", StringComparison.OrdinalIgnoreCase))
-                        continue;
-
-                    foundSaloonDoor = true;
-                    string alwaysOpenAction = $"Warp {parts[1]} {parts[2]} {parts[3]}";
-                    if (string.Equals(action, alwaysOpenAction, StringComparison.Ordinal))
-                        continue;
-
-                    town.setTileProperty(x, y, "Buildings", "Action", alwaysOpenAction);
-                    changedTiles++;
-                }
-            }
-
-            if (changedTiles > 0)
-            {
-                const string message = "Made the Saloon entrance an unconditional warp, so the building is accessible at all times.";
-                this.WriteDiagnostic("INFO", message);
-                this.Monitor.Log(message, LogLevel.Info);
-            }
-
-            return foundSaloonDoor;
-        }
-        catch (Exception ex)
-        {
-            if (!this.warnedAboutSaloonDoorPatch)
-            {
-                this.WriteDiagnostic("ERROR", $"Couldn't update Saloon entrance hours:{Environment.NewLine}{ex}");
-                this.Monitor.Log("Couldn't update Saloon entrance hours. Details were written to diagnostics.log.", LogLevel.Error);
-                this.warnedAboutSaloonDoorPatch = true;
-            }
-
-            return false;
-        }
-    }
-
-    private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
-    {
-        if (!this.saloonDoorHoursPatched && e.Ticks % 30 == 0)
-            this.saloonDoorHoursPatched = this.TryApplySaloonDoorHours();
-
-        if (e.Ticks % 120 != 0)
-            return;
-
-        this.RunSafely("SMAPI log capture", () =>
+        if (string.Equals(e.NewLocation.NameOrUniqueNam
         {
             string smapiPath = Path.Combine(Constants.LogDir, "SMAPI-latest.txt");
             if (!File.Exists(smapiPath))
