@@ -4,6 +4,6 @@
   "Version": "1.0.1",
   "Description": "Adds 50 coffees and 50 teas, with custom buffs, a Saloon drink kiosk, and the HunnyBwat shoutout.",
   "UniqueID": "BentleyPlayz.MoreDrinks",
-  "EntryDll": "Code/BentleyPlayz.MoreDrinks.dll",
+  "EntryDll": "BentleyPlayz.MoreDrinks.dll",
   "MinimumApiVersion": "4.0.0"
 }
