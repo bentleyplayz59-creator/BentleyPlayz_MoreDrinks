@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewValley;
 
 namespace BentleyPlayz.MoreDrinks;
 
@@ -52,6 +53,11 @@ internal sealed class ModEntry : Mod
     private void OnSaveLoaded(object? sender, SaveLoadedEventArgs e)
     {
         this.WriteDiagnostic("INFO", "Save loaded. Runtime diagnostics are active for this session.");
+        this.RunSafely("HunnyBwat shoutout GUI", () =>
+        {
+            Game1.drawObjectDialogue("SHOUTOUT TO HUNNYBWAT!\\n\\nA special shoutout to HunnyBwat, the Twitch streamer, for inspiring this drinks collection. Thanks for supporting the Stardew Valley community!");
+            this.WriteDiagnostic("INFO", "Displayed the HunnyBwat startup shoutout GUI.");
+        });
     }
 
     private void OnReturnedToTitle(object? sender, ReturnedToTitleEventArgs e)
