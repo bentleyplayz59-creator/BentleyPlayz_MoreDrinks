@@ -59,11 +59,16 @@ jobs:
               json.loads(p.read_text(encoding="utf-8"))
           cp = json.loads((root/"Content/content.json").read_text(encoding="utf-8"))
           objs = next(c["Entries"] for c in cp["Changes"] if c["Target"] == "Data/Objects")
+          buffs = next(c["Entries"] for c in cp["Changes"] if c["Target"] == "Data/Buffs")
           shop = next(c["Entries"]["BentleyPlayz_MoreDrinks"]["Items"] for c in cp["Changes"] if c["Target"] == "Data/Shops")
-          assert len(objs) == 100 and len(shop) == 100
+          events = next(c["Entries"] for c in cp["Changes"] if c["Target"] == "Data/Events/Saloon")
+          assert len(objs) == len(buffs) == len(shop) == 100
           assert all(v["IsDrink"] and v["Edibility"] > 0 for v in objs.values())
-          assert len({tuple(sorted(v["Buffs"][0]["CustomAttributes"].items())) for v in objs.values()}) == 100
-          print("Validated: 100 drinkable objects, 100 shop entries, 100 distinct buff profiles.")
+          assert all(v["Buffs"][0]["BuffId"] in buffs for v in objs.values())
+          assert len({tuple(sorted(v["Effects"].items())) for v in buffs.values()}) == 100
+          assert all("AvailableStock" not in v for v in shop)
+          assert any(k.startswith("BentleyPlayz_MoreDrinks_GusIntro/") for k in events)
+          print("Validated: 100 drinkable objects, 100 custom buffs, 100 unlimited-stock shop entries, and Gus's first-visit event.")
           PY
           cd release
           zip -r BentleyPlayz_MoreDrinks.zip BentleyPlayz_MoreDrinks
