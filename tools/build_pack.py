@@ -129,7 +129,7 @@ for i, name in enumerate(COFFEES + TEAS):
     })
 
 # Tiny overlay map; Content Patcher copies its Buildings layer and custom tilesheet into Maps/Saloon.
-root = ET.Element("map", {"version":"1.4","tiledversion":"1.4.2","orientation":"orthogonal","renderorder":"right-down","width":"2","height":"2","tilewidth":"16","tileheight":"16","infinite":"0","nextlayerid":"2","nextobjectid":"1"})
+root = ET.Element("map", {"version":"1.4","tiledversion":"1.4.2","orientation":"orthogonal","renderorder":"right-down","width":"2","height":"2","tilewidth":"16","tileheight":"16","infinite":"0","nextlayerid":"3","nextobjectid":"1"})
 ts = ET.SubElement(root,"tileset",{"firstgid":"1","name":"z_bentley_more_drinks_kiosk","tilewidth":"16","tileheight":"16","tilecount":"4","columns":"2"})
 ET.SubElement(ts,"image",{"source":"Kiosk.png","width":"32","height":"32"})
 for tile_id in ("0","1","2","3"):
@@ -138,7 +138,10 @@ for tile_id in ("0","1","2","3"):
     ET.SubElement(props,"property",{"name":"Action","value":"OpenShop BentleyPlayz_MoreDrinks none"})
 layer=ET.SubElement(root,"layer",{"id":"1","name":"Buildings","width":"3","height":"2"})
 data=ET.SubElement(layer,"data",{"encoding":"csv"})
-data.text="1,2,3,4"
+data.text="1,2,0,0"
+front_layer=ET.SubElement(root,"layer",{"id":"2","name":"Front","width":"2","height":"2"})
+front_data=ET.SubElement(front_layer,"data",{"encoding":"csv"})
+front_data.text="0,0,3,4"
 ET.ElementTree(root).write(ASSETS/"kiosk-overlay.tmx",encoding="utf-8",xml_declaration=True)
 
 content = {
