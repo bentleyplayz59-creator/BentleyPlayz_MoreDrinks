@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="12" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="13">
+  <properties>
+    <property name="DayTiles" type="string" value="Front 8 1 1224" />
+    <property name="NightTiles" type="string" value="Front 8 1 1252" />
+    <property name="Warp" type="string" value="5 10 Beach 30 34" />
+  </properties>
+  <tileset firstgid="1" name="paths" tilewidth="16" tileheight="16" tilecount="64" columns="4">
+    <image source=".._.._.._.._.._.._.._.._Maps_paths" width="64" height="256" />
+  </tileset>
+  <tileset firstgid="65" name="untitled tile sheet" tilewidth="16" tileheight="16" tilecount="2176" columns="32">
+    <image source=".._.._.._.._.._.._.._.._Maps_townInterior" width="512" height="1088" />
+  </tileset>
+  <tileset firstgid="2241" name="untitled tile sheet2" tilewidth="16" tileheight="16" tilecount="1312" columns="32">
+    <image source=".._.._.._.._.._.._.._.._Maps_townInterior_2" width="512" height="656" />
+    <tile id="1218">
+      <animation>
+        <frame tileid="1218" duration="125" />
+        <frame tileid="1218" duration="125" />
+        <frame tileid="1218" duration="125" />
+        <frame tileid="1218" duration="125" />
+        <frame tileid="1219" duration="125" />
+        <frame tileid="1220" duration="125" />
+        <frame tileid="1219" duration="125" />
+        <frame tileid="1218" duration="125" />
+        <frame tileid="1218" duration="125" />
+        <frame tileid="1218" duration="125" />
+        <frame tileid="1218" duration="125" />
+        <frame tileid="1218" duration="125" />
+        <frame tileid="1218" duration="125" />
+        <frame tileid="1218" duration="125" />
+        <frame tileid="1218" duration="125" />
+      </animation>
+    </tile>
+    <tile id="1250">
+      <animation>
+        <frame tileid="1250" duration="125" />
+        <frame tileid="1250" duration="125" />
+        <frame tileid="1250" duration="125" />
+        <frame tileid="1250" duration="125" />
+        <frame tileid="1251" duration="125" />
+        <frame tileid="1252" duration="125" />
+        <frame tileid="1251" duration="125" />
+        <frame tileid="1250" duration="125" />
+        <frame tileid="1250" duration="125" />
+        <frame tileid="1250" duration="125" />
+        <frame tileid="1250" duration="125" />
+        <frame tileid="1250" duration="125" />
+        <frame tileid="1250" duration="125" />
+        <frame tileid="1250" duration="125" />
+        <frame tileid="1250" duration="125" />
+      </animation>
+    </tile>
+  </tileset>
+  <layer id="1" name="Back" width="12" height="10" opacity="1" offsetx="0" offsety="0">
+    <properties />
+    <data>
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="67" />
+      <tile gid="67" />
+      <tile gid="494" />
+      <tile gid="494" />
+      <tile gid="494" />
+      <tile gid="494" />
+      <tile gid="494" />
+      <tile gid="494" />
+      <tile gid="494" />
+      <tile gid="327" />
+      <tile gid="0" />
+      <tile gid="3469" />
+      <tile gid="1291" />
+      <tile gid="3470" />
+      <tile gid="3470" />
+      <tile gid="3470" />
+      <tile gid="3470" />
+      <tile gid="3470" />
+      <tile gid="3470" />
+      <tile gid="3470" />
+      <tile gid="3471" />
+      <tile gid="327" />
+      <tile gid="0" />
+      <tile gid="3501" />
+      <tile gid="1290" />
+      <tile gid="3502" />
+      <tile gid="3502" />
+      <tile gid="3502" />
+      <tile gid="3502" />
+      <tile gid="3502" />
+      <tile gid="3502" />
+      <tile gid="3502" />
+      <tile gid="3502" />
+      <tile gid="327" />
+      <tile gid="0" />
+      <tile gid="3533" />
+      <tile gid="177" />
+      <tile gid="177" />
+      <tile gid="177" />
+      <tile gid="177" />
+      <tile gid="177" />
+      <tile gid="177" />
+      <tile gid="177" />
+      <tile gid="177" />
+      <tile gid="3535" />
+      <tile gid="327" />
+      <tile gid="0" />
+      <tile gid="263" />
+      <tile gid="265" />
+      <tile gid="265" />
+      <tile gid="264" />
+      <tile gid="265" />
+      <tile gid="264" />
+      <tile gid="265" />
+      <tile gid="264" />
+      <tile gid="295" />
+      <tile gid="2373" />
+      <tile gid="327" />
+      <tile gid="296" />
+      <tile gid="297" />
+      <tile gid="2150" />
+      <tile gid="296" />
+      <tile gid="297" />
+      <tile gid="296" />
+      <tile gid="297" />
+      <tile gid="296" />
+      <tile gid="297" />
+      <tile gid="296" />
+      <tile gid="264" />
+      <tile gid="327" />
+      <tile gid="328" />
+      <tile gid="329" />
+      <tile gid="2149" />
+      <tile gid="297" />
+      <tile gid="2346" />
+      <tile gid="70" />
+      <tile gid="70" />
+      <tile gid="328" />
+      <tile gid="69" />
+      <tile gid="328" />
+      <tile gid="2150" />
+      <tile gid="327" />
+      <tile gid="296" />
+      <tile gid="297" />
+      <tile gid="2149" />
+      <tile gid="329" />
+      <tile gid="296" />
+      <tile gid="297" />
+      <tile gid="2149" />
+      <tile gid="296" />
+      <tile gid="297" />
+      <tile gid="296" />
+      <tile gid="2149" />
+      <tile gid="327" />
+      <tile gid="328" />
+      <tile gid="329" />
+      <tile gid="2148" />
+      <tile gid="264" />
+      <tile gid="328" />
+      <tile gid="329" />
+      <tile gid="2148" />
+      <tile gid="264" />
+      <tile gid="329" />
+      <tile gid="328" />
+      <tile gid="2149" />
+      <tile gid="327" />
+      <tile gid="65" />
+      <tile gid="0" />
+      <tile gid="65" />
+      <tile gid="65" />
+      <tile gid="327" />
+      <tile gid="2150" />
+      <tile gid="297" />
+      <tile gid="327" />
+      <tile gid="327" />
+      <tile gid="327" />
+      <tile gid="392" />
+      <tile gid="327" />
+    </data>
+  </layer>
+  <layer id="2" name="Back2" width="12" height="10" opacity="1" offsetx="0" offsety="0">
+    <properties>
+      <property name="Draw" type="string" value="Back" />
+    </properties>
+    <data>
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="2265" />
+      <tile gid="2266" />
+      <tile gid="2267" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="2297" />
+      <tile gid="2298" />
+      <tile gid="2299" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+    </data>
+  </layer>
+  <layer id="3" name="Buildings" width="12" height="10" opacity="1" offsetx="0" offsety="0">
+    <properties />
+    <data>
+      <tile gid="65" />
+      <tile gid="66" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="67" />
+      <tile gid="67" />
+      <tile gid="2186" />
+      <tile gid="67" />
+      <tile gid="67" />
+      <tile gid="67" />
+      <tile gid="75" />
+      <tile gid="76" />
+      <tile gid="71" />
+      <tile gid="106" />
+      <tile gid="0" />
+      <tile gid="2251" />
+      <tile gid="2252" />
+      <tile gid="2253" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="133" />
+      <tile gid="129" />
+      <tile gid="144" />
+      <tile gid="145" />
+      <tile gid="252" />
+      <tile gid="2283" />
+      <tile gid="251" />
+      <tile gid="145" />
+      <tile gid="145" />
+      <tile gid="145" />
+      <tile gid="145" />
+      <tile gid="145" />
+      <tile gid="133" />
+      <tile gid="129" />
+      <tile gid="176" />
+      <tile gid="3532" />
+      <tile gid="284" />
+      <tile gid="2315" />
+      <tile gid="283" />
+      <tile gid="177" />
+      <tile gid="1069" />
+      <tile gid="972" />
+      <tile gid="973" />
+      <tile gid="177" />
+      <tile gid="133" />
+      <tile gid="129" />
+      <tile gid="208" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="1039" />
+      <tile gid="1004" />
+      <tile gid="1005" />
+      <tile gid="3523" />
+      <tile gid="2218" />
+      <tile gid="2217" />
+      <tile gid="517" />
+      <tile gid="0" />
+      <tile gid="1070" />
+      <tile gid="1414" />
+      <tile gid="1415" />
+      <tile gid="1070" />
+      <tile gid="1070" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="133" />
+      <tile gid="129" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="1384" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="1385" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="133" />
+      <tile gid="129" />
+      <tile gid="457" />
+      <tile gid="0" />
+      <tile gid="1416" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="1417" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="133" />
+      <tile gid="129" />
+      <tile gid="2609" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="1265" />
+      <tile gid="133" />
+      <tile gid="65" />
+      <tile gid="65" />
+      <tile gid="65" />
+      <tile gid="65" />
+      <tile gid="129" />
+      <tile gid="0" />
+      <tile gid="133" />
+      <tile gid="65" />
+      <tile gid="65" />
+      <tile gid="65" />
+      <tile gid="65" />
+      <tile gid="65" />
+    </data>
+  </layer>
+  <layer id="4" name="Front" width="12" height="10" opacity="1" offsetx="0" offsety="0">
+    <properties />
+    <data>
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="97" />
+      <tile gid="0" />
+      <tile gid="3468" />
+      <tile gid="3536" />
+      <tile gid="3536" />
+      <tile gid="3536" />
+      <tile gid="1321" />
+      <tile gid="1320" />
+      <tile gid="1289" />
+      <tile gid="1322" />
+      <tile gid="2532" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="3500" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="1194" />
+      <tile gid="1195" />
+      <tile gid="1271" />
+      <tile gid="2564" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="545" />
+      <tile gid="1288" />
+      <tile gid="673" />
+      <tile gid="3491" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="1411" />
+      <tile gid="0" />
+      <tile gid="1038" />
+      <tile gid="1382" />
+      <tile gid="1383" />
+      <tile gid="1355" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="1352" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="1353" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="425" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="1201" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="2577" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="1233" />
+      <tile gid="0" />
+      <tile gid="225" />
+      <tile gid="2609" />
+      <tile gid="0" />
+      <tile gid="230" />
+      <tile gid="227" />
+      <tile gid="0" />
+      <tile gid="228" />
+      <tile gid="230" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="231" />
+      <tile gid="232" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+    </data>
+  </layer>
+  <layer id="5" name="Front2" width="12" height="10" opacity="1" offsetx="0" offsety="0">
+    <properties>
+      <property name="Draw" type="string" value="Front" />
+    </properties>
+    <data>
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="68" />
+      <tile gid="65" />
+      <tile gid="0" />
+      <tile gid="3322" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="108" />
+      <tile gid="101" />
+      <tile gid="0" />
+      <tile gid="3354" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="3459" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="226" />
+      <tile gid="2185" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="2185" />
+      <tile gid="230" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+    </data>
+  </layer>
+  <layer id="6" name="Paths" width="12" height="10" opacity="1" offsetx="0" offsety="0">
+    <properties />
+    <data>
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="9" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="9" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+      <tile gid="0" />
+    </data>
+  </layer>
+  <objectgroup id="7" name="Back" visible="false" locked="false" />
+  <objectgroup id="8" name="Back2" visible="false" locked="false" />
+  <objectgroup id="9" name="Buildings" visible="false" locked="false">
+    <object id="1" name="TileData" x="32" y="48" width="16" height="16" rotation="0">
+      <properties>
+        <property name="Action" type="string" value="Message &quot;FishShop.1&quot;" />
+      </properties>
+    </object>
+    <object id="2" name="TileData" x="64" y="48" width="16" height="16" rotation="0">
+      <properties>
+        <property name="Action" type="string" value="WarpBoatTunnel" />
+      </properties>
+    </object>
+    <object id="3" name="TileData" x="128" y="64" width="16" height="16" rotation="0">
+      <properties>
+        <property name="Action" type="string" value="Message &quot;FishShop.2&quot;" />
+      </properties>
+    </object>
+    <object id="4" name="TileData" x="144" y="64" width="16" height="16" rotation="0">
+      <properties>
+        <property name="Action" type="string" value="Message &quot;FishShop.3&quot;" />
+      </properties>
+    </object>
+    <object id="5" name="TileData" x="160" y="64" width="16" height="16" rotation="0">
+      <properties>
+        <property name="Action" type="string" value="Bobbers" />
+      </properties>
+    </object>
+    <object id="6" name="TileData" x="64" y="80" width="16" height="16" rotation="0">
+      <properties>
+        <property name="Action" type="string" value="Buy Fish" />
+      </properties>
+    </object>
+    <object id="7" name="TileData" x="80" y="80" width="16" height="16" rotation="0">
+      <properties>
+        <property name="Action" type="string" value="Buy Fish" />
+      </properties>
+    </object>
+    <object id="8" name="TileData" x="96" y="80" width="16" height="16" rotation="0">
+      <properties>
+        <property name="Action" type="string" value="Buy Fish" />
+      </properties>
+    </object>
+    <object id="9" name="TileData" x="48" y="96" width="16" height="16" rotation="0">
+      <properties>
+        <property name="Action" type="string" value="Message &quot;FishShop.4&quot;" />
+      </properties>
+    </object>
+    <object id="10" name="TileData" x="112" y="96" width="16" height="16" rotation="0">
+      <properties>
+        <property name="Action" type="string" value="Message &quot;FishShop.5&quot;" />
+      </properties>
+    </object>
+    <object id="11" name="TileData" x="48" y="112" width="16" height="16" rotation="0">
+      <properties>
+        <property name="Action" type="string" value="Message &quot;FishShop.6&quot;" />
+      </properties>
+    </object>
+    <object id="12" name="TileData" x="112" y="112" width="16" height="16" rotation="0">
+      <properties>
+        <property name="Action" type="string" value="Message &quot;FishShop.7&quot;" />
+      </properties>
+    </object>
+  </objectgroup>
+  <objectgroup id="10" name="Front" visible="false" locked="false" />
+  <objectgroup id="11" name="Front2" visible="false" locked="false" />
+  <objectgroup id="12" name="Paths" visible="false" locked="false" />
+</map>
