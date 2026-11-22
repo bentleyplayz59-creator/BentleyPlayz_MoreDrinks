@@ -1,7 +1,7 @@
 {
   "Name": "BentleyPlayz More Drinks - Code",
   "Author": "BentleyPlayz",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Description": "SMAPI code component for BentleyPlayz More Drinks. Ships in the same mod folder as its Content Patcher content.",
   "UniqueID": "BentleyPlayz.MoreDrinks",
   "EntryDll": "BentleyPlayz.MoreDrinks.dll",
