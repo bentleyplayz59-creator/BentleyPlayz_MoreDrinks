@@ -24,67 +24,60 @@ TEAS = [
 assert len(COFFEES) == len(TEAS) == 50 and len(set(COFFEES + TEAS)) == 100
 
 PALETTES = [(105,58,37),(153,91,54),(190,125,70),(87,54,43),(124,76,61),(205,150,92),(88,110,84),(120,151,112),(163,103,137),(120,102,166),(78,133,164),(198,104,81),(211,174,94),(98,142,137),(160,119,82),(173,129,163),(95,113,157),(184,148,119),(126,145,91),(196,119,96)]
-ACCENTS = [(244,211,133),(232,232,218),(202,224,242),(245,183,196),(177,218,174),(221,190,240),(255,225,165),(165,215,213),(239,166,117),(210,210,210)]
 STATS = ["Speed","LuckLevel","FarmingLevel","FishingLevel","ForagingLevel","MiningLevel","CombatLevel","Defense","Attack","MagneticRadius","MaxStamina"]
 
-def draw_drink(draw, x, y, i, tea):
-    base = PALETTES[i % len(PALETTES)]
-    accent = ACCENTS[(i * 7 + (11 if tea else 3)) % len(ACCENTS)]
-    dark = tuple(max(0,c-45) for c in base)
-    light = tuple(min(255,c+48) for c in base)
-    draw.rectangle((x+3,y+13,x+12,y+14), fill=(214,197,165,255))
-    if tea:
-        draw.rectangle((x+4,y+5,x+11,y+12), fill=base+(255,))
-        draw.rectangle((x+5,y+4,x+10,y+4), fill=light+(255,))
-        draw.rectangle((x+5,y+6,x+10,y+7), fill=accent+(255,))
-        draw.rectangle((x+11,y+7,x+13,y+10), fill=dark+(255,))
-        draw.point((x+13,y+8), fill=light+(255,))
-        draw.line((x+3,y+2,x+4,y+6), fill=(235,226,198,255))
-        draw.rectangle((x+1,y+1,x+3,y+3), fill=accent+(255,))
-    else:
-        draw.rectangle((x+3,y+5,x+11,y+12), fill=base+(255,))
-        draw.rectangle((x+4,y+4,x+10,y+4), fill=light+(255,))
-        draw.rectangle((x+4,y+6,x+10,y+7), fill=dark+(255,))
-        draw.rectangle((x+11,y+7,x+13,y+10), fill=base+(255,))
-        draw.point((x+13,y+8), fill=light+(255,))
-        draw.rectangle((x+4,y+11,x+10,y+11), fill=light+(255,))
-        if i%3 == 0:
-            draw.line((x+5,y+3,x+4,y+2), fill=(232,232,224,255)); draw.line((x+8,y+3,x+9,y+1), fill=(232,232,224,255))
-        elif i%3 == 1:
-            draw.line((x+6,y+3,x+7,y+1), fill=(232,232,224,255))
-        else:
-            draw.line((x+9,y+3,x+8,y+2), fill=(232,232,224,255))
-    motif = i % 5
-    if motif == 0: draw.point((x+7,y+9), fill=accent+(255,))
-    elif motif == 1: draw.rectangle((x+6,y+8,x+8,y+9), fill=accent+(255,))
-    elif motif == 2:
-        draw.point((x+9,y+9), fill=accent+(255,)); draw.point((x+6,y+10), fill=light+(255,))
-    elif motif == 3: draw.line((x+5,y+9,x+8,y+9), fill=accent+(255,))
-    else: draw.rectangle((x+7,y+8,x+9,y+10), fill=accent+(255,))
+# Use the original 16x16 Stardew Valley Coffee (395) and Green Tea (614)
+# item sprites as the source silhouettes. Recolor only their existing pixels;
+# transparent pixels and dark outlines remain untouched.
+SOURCE_ASSETS = ROOT / "DecodedAssets"
+coffee_source = Image.open(SOURCE_ASSETS / "VanillaCoffee.png").convert("RGBA")
+tea_source = Image.open(SOURCE_ASSETS / "VanillaGreenTea.png").convert("RGBA")
+assert coffee_source.size == tea_source.size == (16, 16)
 
-sheet = Image.new("RGBA",(160,160),(0,0,0,0))
-d = ImageDraw.Draw(sheet)
+def recolor_vanilla_sprite(source, palette, variant, tea):
+    base = tuple(int(c) for c in palette)
+    accent = (236, 220, 174) if tea else (245, 224, 166)
+    dark = tuple(max(0, c - 48) for c in base)
+    out = Image.new("RGBA", source.size, (0, 0, 0, 0))
+    src = source.load()
+    dst = out.load()
+    for y in range(16):
+        for x in range(16):
+            r, g, b, a = src[x, y]
+            if a == 0:
+                continue
+            lum = (r * 299 + g * 587 + b * 114) // 1000
+            if lum < 52:
+                color = (r, g, b)
+            elif lum > 220:
+                color = accent
+            elif lum < 105:
+                color = dark
+            else:
+                factor = (lum - 105) / 115
+                color = tuple(round(dark[c] * (1-factor) + base[c] * factor) for c in range(3))
+            # Small, restrained pixel-level highlight variation; silhouette stays vanilla.
+            if (x + y + variant) % 11 == 0 and lum >= 105:
+                color = tuple(round(color[c] * 0.72 + accent[c] * 0.28) for c in range(3))
+            dst[x, y] = (*color, a)
+    return out
+
+sheet = Image.new("RGBA", (160, 160), (0, 0, 0, 0))
 for i in range(100):
-    draw_drink(d,(i%10)*16,(i//10)*16,i,i>=50)
-sheet.save(ASSETS/"Drinks.png", optimize=True)
+    is_tea = i >= 50
+    palette = PALETTES[(i * 7 + (11 if is_tea else 3)) % len(PALETTES)]
+    source = tea_source if is_tea else coffee_source
+    sprite = recolor_vanilla_sprite(source, palette, i, is_tea)
+    sheet.alpha_composite(sprite, ((i % 10) * 16, (i // 10) * 16))
+sheet.save(ASSETS / "Drinks.png", optimize=True)
 
-# Two adjacent 16x16 tiles form one 32x16 kiosk front, matching Saloon tiles (16,19) and (17,19).
-kiosk = Image.new("RGBA",(32,16),(0,0,0,0))
-kd = ImageDraw.Draw(kiosk)
-kd.rectangle((0,2,31,14), fill=(91,55,38,255))
-kd.rectangle((1,1,30,4), fill=(180,119,68,255))
-kd.rectangle((2,5,29,13), fill=(122,77,48,255))
-kd.rectangle((3,6,28,11), fill=(52,42,35,255))
-kd.rectangle((4,7,27,10), fill=(231,193,127,255))
-kd.rectangle((6,7,9,10), fill=(101,65,45,255))
-kd.rectangle((12,7,15,10), fill=(112,78,51,255))
-kd.rectangle((18,7,21,10), fill=(101,65,45,255))
-kd.rectangle((24,7,27,10), fill=(112,78,51,255))
-kd.rectangle((0,14,31,15), fill=(61,40,31,255))
-kd.line((15,2,15,13), fill=(74,46,34,255))
-kd.rectangle((2,2,13,3), fill=(223,177,104,255))
-kd.rectangle((18,2,29,3), fill=(223,177,104,255))
-kiosk.save(ASSETS/"Kiosk.png", optimize=True)
+# Build the kiosk from two adjacent 16x16 regions of the original vanilla
+# furniture tilesheet. This retains the game's wood grain, outline, and shading.
+vanilla_furniture = Image.open(SOURCE_ASSETS / "furniture.png").convert("RGBA")
+assert vanilla_furniture.width == 512 and vanilla_furniture.height >= 352
+kiosk = vanilla_furniture.crop((0, 320, 32, 336))
+assert kiosk.size == (32, 16)
+kiosk.save(ASSETS / "Kiosk.png", optimize=True)
 
 objects, buffs, stock, catalog = {}, {}, [], []
 seen_effects = set()
@@ -157,7 +150,7 @@ content = {
     "BentleyPlayz_MoreDrinks":{"Currency":0,"Items":stock}
   }},
   {"LogName":"Play Gus's one-time sponsored coffee and tea introduction on the first Saloon visit","Action":"EditData","Target":"Data/Events/Saloon","Entries":{
-    "BentleyPlayz_MoreDrinks_GusIntro/Time 600 2600/!SawEvent BentleyPlayz_MoreDrinks_GusIntro": 'continue/16 18/farmer 15 20 2 Gus 16 18 2/skippable/pause 500/faceDirection Gus 2/faceDirection farmer 0/speak Gus "Hey, @! I have some exciting news for you!"/pause 500/speak Gus "The Stardrop Saloon has a brand-new coffee and tea menu!"/pause 500/speak Gus "We got sponsored by Bentley Playz! He taught me how to make all of these new drinks."/pause 500/speak Gus "There are 50 coffees and 50 teas, and every one has its own special boost."/pause 500/speak Gus "You can try them all at the new kiosk right here in the Saloon!"/pause 500/emote Gus 20/end'
+    "BentleyPlayz_MoreDrinks_GusIntro/Time 600 2600/!SawEvent BentleyPlayz_MoreDrinks_GusIntro": 'continue/16 18/farmer 15 20 2 Gus 17 18 2/skippable/pause 500/faceDirection Gus 2/faceDirection farmer 0/speak Gus "Hey, @! I have some exciting news for you!"/pause 500/speak Gus "The Stardrop Saloon has a brand-new coffee and tea menu!"/pause 500/speak Gus "We got sponsored by Bentley Playz! He taught me how to make all of these new drinks."/pause 500/speak Gus "There are 50 coffees and 50 teas, and every one has its own special boost."/pause 500/speak Gus "You can try them all at the new kiosk right here in the Saloon!"/pause 500/emote Gus 20/end'
   }},
   {"LogName":"Place the two-tile kiosk at the specified Saloon bar-front coordinates","Action":"EditMap","Target":"Maps/Saloon",
    "FromFile":"assets/kiosk-overlay.tmx","FromArea":{"X":0,"Y":0,"Width":2,"Height":1},
