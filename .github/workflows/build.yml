@@ -93,12 +93,10 @@ jobs:
           assert "2x1" in (root/"Content/Saloon_Collision_Grid.md").read_text()
           print("Validated: 100 drinks, 100 buffs, unlimited stock, safe event staging, and an exact 2x1 solid station.")
           PY
-          cd release
-          zip -r BentleyPlayz_MoreDrinks.zip BentleyPlayz_MoreDrinks
-
-      - name: Upload combined mod artifact
+      - name: Upload installable mod folder as artifact
         uses: actions/upload-artifact@v4
         with:
           name: BentleyPlayz_MoreDrinks
-          path: release/BentleyPlayz_MoreDrinks.zip
+          path: release/BentleyPlayz_MoreDrinks/
           if-no-files-found: error
+          include-hidden-files: true
