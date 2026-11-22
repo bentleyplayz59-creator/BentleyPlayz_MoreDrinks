@@ -1,0 +1,15 @@
+using System;
+using StardewValley.GameData;
+
+namespace Pathoschild.Stardew.Common.Integrations.CustomBush;
+
+public interface ICustomBushDrop : ISpawnItemData
+{
+	Nullable Season { get; }
+
+	float Chance { get; }
+
+	string? Condition { get; }
+
+	string? Id { get; }
+}
