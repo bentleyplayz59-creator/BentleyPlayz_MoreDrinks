@@ -71,40 +71,65 @@ for i in range(100):
     sheet.alpha_composite(sprite, ((i % 10) * 16, (i // 10) * 16))
 sheet.save(ASSETS / "Drinks.png", optimize=True)
 
-# Distinct 2x1 coffee-and-tea station: compact espresso machine, tea kettle,
-# two cups, copper fittings, and restrained steam. Drawn in the Saloon's
-# walnut/amber/cream palette so it reads as a separate service point.
+# Distinct 2x1 coffee-and-tea shop station.
+# Use the Saloon's walnut, brass, and muted cream palette. A clear "DRINKS"
+# plaque makes the purchasing point recognizable without changing its footprint.
 kiosk = Image.new("RGBA", (32, 16), (0, 0, 0, 0))
 kd = ImageDraw.Draw(kiosk)
-# Soft steam above the equipment.
-for points in [[(5,1),(4,3),(5,4),(6,3)],[(10,0),(9,2),(10,4),(11,3)],[(22,1),(21,3),(22,4),(23,3)]]:
-    kd.line(points, fill=(235, 218, 176, 210), width=1)
-# Espresso machine body and feet.
-kd.rectangle((1,5,14,13), fill=(105,58,39,255), outline=(55,34,29,255))
-kd.rectangle((2,6,13,8), fill=(174,112,68,255), outline=(75,45,33,255))
-kd.rectangle((4,7,11,8), fill=(57,42,37,255))
-kd.rectangle((5,9,10,11), fill=(205,169,112,255), outline=(80,52,39,255))
-kd.rectangle((6,10,9,10), fill=(79,124,119,255))
-kd.rectangle((2,12,4,14), fill=(67,43,34,255))
-kd.rectangle((11,12,13,14), fill=(67,43,34,255))
-kd.rectangle((7,4,9,5), fill=(196,146,86,255))
-# Copper spout and drip tray.
-kd.line((13,8,15,8,15,11), fill=(207,151,79,255), width=1)
-kd.line((4,14,13,14), fill=(218,177,116,255), width=1)
-# Teapot/kettle on the right.
-kd.ellipse((18,7,25,13), fill=(145,83,52,255), outline=(64,41,34,255))
-kd.rectangle((20,5,23,7), fill=(194,143,83,255), outline=(75,49,35,255))
-kd.line((24,9,27,8,28,10), fill=(194,143,83,255), width=1)
-kd.arc((16,8,21,13), 70, 290, fill=(218,177,116,255), width=1)
-kd.rectangle((20,13,24,14), fill=(75,46,35,255))
-# Two cream cups on the counter.
-kd.rectangle((26,10,29,13), fill=(235,220,183,255), outline=(92,62,43,255))
-kd.line((29,11,31,11,31,12,29,12), fill=(174,112,68,255), width=1)
-kd.rectangle((16,13,19,15), fill=(235,220,183,255), outline=(92,62,43,255))
-kd.line((19,14,20,14), fill=(174,112,68,255), width=1)
-# Walnut counter edge across the full 2-tile footprint.
-kd.line((0,15,31,15), fill=(69,42,31,255), width=1)
-kd.line((0,14,31,14), fill=(174,112,68,255), width=1)
+
+# Dark walnut backing and brass-edged shop plaque.
+kd.rectangle((2, 0, 29, 6), fill=(66, 42, 32, 255), outline=(190, 139, 77, 255))
+kd.rectangle((3, 1, 28, 5), fill=(119, 76, 48, 255))
+glyphs = {
+    "D": ("110", "101", "101", "101", "110"),
+    "R": ("110", "101", "110", "101", "101"),
+    "I": ("111", "010", "010", "010", "111"),
+    "N": ("101", "111", "111", "111", "101"),
+    "K": ("101", "101", "110", "101", "101"),
+    "S": ("111", "100", "111", "001", "111"),
+}
+label = "DRINKS"
+label_width = len(label) * 4 - 1
+label_x = (32 - label_width) // 2
+for index, letter in enumerate(label):
+    for row, bits in enumerate(glyphs[letter]):
+        for col, bit in enumerate(bits):
+            if bit == "1":
+                kd.point((label_x + index * 4 + col, 1 + row), fill=(245, 220, 164, 255))
+
+# Continuous walnut service counter, with a brass lip and darker front panel.
+kd.rectangle((0, 8, 31, 15), fill=(91, 54, 38, 255))
+kd.line((0, 8, 31, 8), fill=(202, 153, 91, 255), width=1)
+kd.line((0, 9, 31, 9), fill=(53, 36, 30, 255), width=1)
+kd.rectangle((0, 12, 31, 14), fill=(111, 68, 45, 255))
+kd.line((0, 14, 31, 14), fill=(65, 42, 33, 255), width=1)
+
+# Compact espresso machine: dark enamel, warm metal trim, no bright powder jar.
+kd.rectangle((3, 7, 12, 12), fill=(62, 55, 48, 255), outline=(38, 34, 31, 255))
+kd.rectangle((4, 8, 11, 9), fill=(139, 91, 57, 255))
+kd.rectangle((5, 10, 10, 11), fill=(48, 43, 39, 255), outline=(185, 139, 82, 255))
+kd.line((11, 9, 14, 9, 14, 11), fill=(196, 145, 82, 255), width=1)
+kd.line((4, 12, 12, 12), fill=(201, 155, 91, 255), width=1)
+kd.point((7, 8), fill=(227, 196, 133, 255))
+kd.point((9, 8), fill=(227, 196, 133, 255))
+
+# Tea kettle with a dark glazed body and copper handle.
+kd.ellipse((17, 9, 23, 13), fill=(112, 65, 48, 255), outline=(52, 38, 32, 255))
+kd.rectangle((19, 8, 21, 9), fill=(191, 139, 77, 255))
+kd.line((23, 10, 26, 9, 27, 10), fill=(190, 139, 78, 255), width=1)
+kd.arc((16, 8, 21, 13), 65, 285, fill=(205, 157, 96, 255), width=1)
+kd.line((19, 8, 21, 7), fill=(208, 165, 105, 255), width=1)
+
+# Two small cream cups, shaded to match the Saloon's warm interior lighting.
+kd.rectangle((26, 10, 29, 12), fill=(216, 194, 151, 255), outline=(78, 53, 39, 255))
+kd.line((29, 10, 30, 10, 30, 11, 29, 11), fill=(169, 119, 72, 255), width=1)
+kd.rectangle((14, 12, 16, 13), fill=(216, 194, 151, 255), outline=(78, 53, 39, 255))
+kd.point((15, 11), fill=(228, 207, 164, 255))
+
+# Subtle steam highlights, kept below the sign so the lettering stays legible.
+kd.line((6, 6, 6, 5), fill=(223, 201, 159, 220), width=1)
+kd.line((8, 6, 8, 5), fill=(223, 201, 159, 220), width=1)
+kd.line((20, 6, 20, 5), fill=(223, 201, 159, 220), width=1)
 kiosk.save(ASSETS / "Kiosk.png", optimize=True)
 assert kiosk.size == (32, 16)
 
@@ -223,7 +248,7 @@ content = {
 }
 manifest = {
  "Name":"BentleyPlayz More Drinks - Content",
- "Author":"BentleyPlayz","Version":"1.0.0",
+ "Author":"BentleyPlayz","Version":"1.0.1",
  "Description":"Content Patcher content for 50 coffees, 50 teas, their shop stock, and the Saloon kiosk map edit.",
  "UniqueID":"BentleyPlayz.MoreDrinks.Content",
  "ContentPackFor":{"UniqueID":"Pathoschild.ContentPatcher","MinimumVersion":"2.9.0"}
@@ -234,7 +259,7 @@ manifest = {
 (OUT/"README.md").write_text(
  "# BentleyPlayz More Drinks\\n\\nOne combined SMAPI mod folder with a Code DLL and Content Patcher content. "
  "Adds 50 coffees and 50 teas, each with its own 16x16 sprite, positive Edibility, and a unique buff profile. "
- "The custom shop has unlimited stock and is opened by a distinct 2x1 coffee-and-tea station at (16,19) and (17,19). Gus introduces the menu in a one-time-per-save event on the first Saloon visit.\\n",
+ "The custom shop has unlimited stock and is opened by a distinct 2x1 coffee-and-tea station with a readable DRINKS sign at (16,19) and (17,19). Gus introduces the menu in a one-time-per-save event on the first Saloon visit.\\n",
  encoding="utf-8")
 assert len(objects)==len(buffs)==len(stock)==len(catalog)==100
 assert len(seen_effects)==100
