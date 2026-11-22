@@ -55,7 +55,7 @@ internal sealed class ModEntry : Mod
         this.WriteDiagnostic("INFO", "Save loaded. Runtime diagnostics are active for this session.");
         this.RunSafely("HunnyBwat shoutout GUI", () =>
         {
-            Game1.drawObjectDialogue("SHOUTOUT TO HUNNYBWAT!\\n\\nA special shoutout to HunnyBwat, the Twitch streamer, for inspiring this drinks collection. Thanks for supporting the Stardew Valley community!");
+            Game1.drawObjectDialogue("SHOUTOUT TO HUNNYBWAT!\n\nA special shoutout to HunnyBwat, the Twitch streamer, for inspiring this drinks collection. Thanks for supporting the Stardew Valley community!");
             this.WriteDiagnostic("INFO", "Displayed the HunnyBwat startup shoutout GUI.");
         });
     }
