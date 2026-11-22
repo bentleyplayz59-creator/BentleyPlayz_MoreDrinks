@@ -10,21 +10,21 @@ A Stardew Valley 1.6.15 mod project by Bentley Playz, targeting SMAPI on Android
 - Keep the project organized as one cohesive mod rather than splitting related features into unrelated mods.
 - On initialization, show a prominent shoutout to HunnyBwat.
 
-## Current priority: redesign the Saloon counter
+## Current priority: visual redesign of the Saloon counter
 
-The current counter does not meet the visual quality expected for this project and needs to be redesigned. Do not treat the existing counter as finished or merely polish it with tiny adjustments. Rework it into a deliberate, attractive, professional-looking Stardew Valley interior feature that feels at home in the Stardrop Saloon.
+The existing counter's functionality and workflow are working correctly. Its visual design is not acceptable yet, so the current task is to redesign **the appearance of the counter only**.
 
 Use Bentley's Fast Food and the other existing BentleyPlayz projects as visual and quality references. The result should feel cohesive with those projects while still fitting Gus's Saloon and Stardew Valley's visual language. Review the existing project assets and context before making design decisions.
 
-The specific design solution is intentionally left to the developer. Prioritize a strong finished result over preserving the current counter design.
+**Do not change the counter workflow or functional behavior.** Do not change how the counter is accessed, how it opens, how the shop/menu works, how purchases or orders are handled, or any related event handling, triggers, input behavior, data flow, NPC schedules, Gus's stock, or vanilla shop behavior. Do not refactor working systems. Only change the counter's visual presentation and the minimum visual assets/layout data required for the redesign. If a functional change seems necessary, stop and explain why before making it.
+
+The specific visual solution is intentionally left to the developer. See [CLAUDE.md](CLAUDE.md) for the detailed handoff and strict scope boundaries.
 
 ## Development notes
 
 - Target game version: Stardew Valley 1.6.15.3.
 - Target mod loader: SMAPI 4.3.2.5.
 - Android compatibility is an important requirement; test on the user's Android setup where possible.
-- Keep vanilla Saloon functionality and existing Gus stock intact.
+- Preserve vanilla Saloon functionality and Gus's existing stock.
 - Use the repository's researched game assets and references rather than guessing about map layout or tile usage.
 - The drink roster and final custom sprites are supplied/approved separately; do not invent a replacement set of 100 finished drink assets without the user's input.
-
-See [CLAUDE.md](CLAUDE.md) for the current developer handoff.
