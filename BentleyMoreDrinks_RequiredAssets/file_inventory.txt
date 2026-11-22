@@ -1,0 +1,13 @@
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/Characters/Gus.xnb
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/Data/CookingRecipes.xnb
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/Data/Locations.xnb
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/Data/Objects.xnb
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/Maps/RefurbishedSaloonRoom.xnb
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/Maps/Saloon.xnb
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/Maps/Town.xnb
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/Portraits/Gus.xnb
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/TileSheets/Floors.xnb
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/TileSheets/Objects_2.xnb
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/TileSheets/furniture.xnb
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/TileSheets/furnitureFront.xnb
+/storage/emulated/0/Download/BentleyMoreDrinks_RequiredAssets/file_inventory.txt
