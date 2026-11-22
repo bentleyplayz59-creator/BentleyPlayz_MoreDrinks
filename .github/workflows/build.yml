@@ -103,6 +103,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: BentleyPlayz_MoreDrinks
-          path: release/BentleyPlayz_MoreDrinks/
+          path: release/
           if-no-files-found: error
           include-hidden-files: true
