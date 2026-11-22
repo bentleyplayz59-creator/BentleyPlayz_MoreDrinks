@@ -239,5 +239,24 @@ manifest = {
 assert len(objects)==len(buffs)==len(stock)==len(catalog)==100
 assert len(seen_effects)==100
 assert len(list(ASSETS.glob("*.png")))==2
-(OUT/"Saloon_Collision_Grid.md").write_text("# Saloon station collision grid\n\nMap: `Maps/Saloon`  \nPatch destination: `(16,19)`, footprint: **2 columns × 1 row**.\n\nCoordinates use Stardew/Tiled zero-based tile coordinates.\n\n| y | x=14 | x=15 | x=16 | x=17 | x=18 | x=19 |\n|---:|---|---|---|---|---|---|\n| 18 | Walkable/verify base map | Walkable/verify base map | Walkable/verify base map | Walkable/verify base map | Gus staging tile | Existing furniture |\n| 19 | Existing floor | Existing floor | **SOLID station (tile 1)** | **SOLID station (tile 2)** | Existing floor | Existing furniture |\n| 20 | Walkable route | Existing stool collision | Walkable route | Walkable route | Walkable route | Existing stool collision |\n\nChanged tiles:\n- (16,19): replace the previous generic bar crop with the left half of the unique coffee machine/tea station; Buildings layer; solid; shop action.\n- (17,19): replace the previous generic bar crop with the right half containing kettle/cups; Buildings layer; solid; shop action.\n- (14,21): Gus introduction farmer start position moved here to avoid the stool at (15,20).\n- (18,18): Gus staging position moved here to keep him clear of the station footprint.\n\nThe station patch is exactly 2×1. It adds no collision or decorative tiles in a second row. Existing stool tiles remain in the base Saloon Buildings layer; this patch does not erase or replace them.", encoding="utf-8")\nprint("Generated 100 unique drink objects, 100 shop entries, 100 unique buff profiles.")
+(OUT/"Saloon_Collision_Grid.md").write_text("""# Saloon station collision grid
+
+Map: `Maps/Saloon`
+Patch destination: `(16,19)`, footprint: **2 columns × 1 row**.
+Coordinates use zero-based tile coordinates.
+
+| y | x=14 | x=15 | x=16 | x=17 | x=18 | x=19 |
+|---:|---|---|---|---|---|---|
+| 18 | Walkable | Walkable | Walkable | Walkable | Gus staging | Existing furniture |
+| 19 | Floor | Floor | **SOLID station 1** | **SOLID station 2** | Floor | Existing furniture |
+| 20 | Walkable route | Stool (solid) | Walkable route | Walkable route | Walkable route | Stool (solid) |
+
+Changed tiles and event positions:
+- (16,19): station left tile, Buildings layer, solid, opens shop.
+- (17,19): station right tile, Buildings layer, solid, opens shop.
+- Farmer event start moved to (14,21), away from stool (15,20).
+- Gus event staging moved to (18,18), outside the station footprint.
+
+The station is exactly 2x1. No second row is patched. Existing stools remain on the base Saloon Buildings layer.
+""", encoding="utf-8")
 print("Generated Drinks.png (160x160), Kiosk.png (32x16), villager dialogue, and a 2x1 kiosk-overlay.tmx.")
