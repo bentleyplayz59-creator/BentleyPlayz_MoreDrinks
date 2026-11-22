@@ -86,10 +86,9 @@ internal sealed class ModEntry : Mod
     }
 
     /// <summary>
-    /// Keep the vanilla Saloon entrance unlocked throughout the playable day.
-    /// The vanilla door uses LockedDoorWarp with a 12:00 PM–12:00 AM window.
-    /// Updating only its time arguments preserves the original destination and
-    /// keeps the rest of the Town map and Gus's shop behavior intact.
+    /// Keep the vanilla Saloon entrance accessible at all times, including festival days.
+    /// Replace only the Saloon door's LockedDoorWarp action with a normal Warp,
+    /// preserving its original destination while leaving the rest of Town untouched.
     /// </summary>
     private bool TryApplySaloonDoorHours()
     {
@@ -112,25 +111,27 @@ internal sealed class ModEntry : Mod
                         continue;
 
                     string[] parts = action.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                    if (parts.Length < 6
-                        || !string.Equals(parts[0], "LockedDoorWarp", StringComparison.OrdinalIgnoreCase)
+                    bool isLockedDoorWarp = parts.Length >= 6
+                        && string.Equals(parts[0], "LockedDoorWarp", StringComparison.OrdinalIgnoreCase);
+                    bool isAlwaysOpenWarp = parts.Length >= 4
+                        && string.Equals(parts[0], "Warp", StringComparison.OrdinalIgnoreCase);
+                    if ((!isLockedDoorWarp && !isAlwaysOpenWarp)
                         || !string.Equals(parts[3], "Saloon", StringComparison.OrdinalIgnoreCase))
                         continue;
 
                     foundSaloonDoor = true;
-                    if (parts[4] == "600" && parts[5] == "2600")
+                    string alwaysOpenAction = $"Warp {parts[1]} {parts[2]} {parts[3]}";
+                    if (string.Equals(action, alwaysOpenAction, StringComparison.Ordinal))
                         continue;
 
-                    parts[4] = "600";
-                    parts[5] = "2600";
-                    town.setTileProperty(x, y, "Buildings", "Action", string.Join(" ", parts));
+                    town.setTileProperty(x, y, "Buildings", "Action", alwaysOpenAction);
                     changedTiles++;
                 }
             }
 
             if (changedTiles > 0)
             {
-                const string message = "Changed the Saloon entrance to 6:00 AM–2:00 AM, keeping it accessible throughout the playable day.";
+                const string message = "Made the Saloon entrance an unconditional warp, so the building is accessible at all times.";
                 this.WriteDiagnostic("INFO", message);
                 this.Monitor.Log(message, LogLevel.Info);
             }
