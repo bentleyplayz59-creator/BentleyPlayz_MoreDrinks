@@ -83,47 +83,49 @@ def blit(im, rows, ox, oy, legend):
             if ch != '.':
                 px(im, ox + i, oy + j, legend[ch])
 
-MACH_O = c(36, 26, 26)
+# Items are drawn one-per-tile so nothing straddles the tile seam at x=16.
+#   left tile  (x0-15)  : espresso machine with a cup under the spout
+#   right tile (x16-31) : teapot + a stack of two cups
+O  = c(40, 24, 20)         # item outline
 MACH = {
-    'O': MACH_O, 'a': B3, 'b': B2, 'm': B1, 'd': B0,
-    's': S3, 't': S2, 'e': S1, 'k': S0,
-    'C': CR2, 'c': CR1, 'w': CR0, 'r': RED2, 'o': CF,
+    'O': O, 'H': S3, 't': S2, 'e': S1, 'k': S0,
+    'R': c(200, 60, 48), 'G': CR2, 'g': CR1, 'b': B2, 'd': B0, 'o': CF,
 }
-MACHINE = [
-    "..OOOOO..",
-    ".ObbbbmdO",
-    "ObbbbbbmO",
-    "OsttttteO",
-    "OCceeeerO",
-    "OeedmdeeO",
-    "OekcockeO",
-    "OekccckeO",
-    "OOOOOOOOO",
+MACHINE = [        # 12 wide x 12 tall
+    "..OOOOOOOO..",
+    ".OHHHHHHHHO.",
+    "OHttttttttkO",
+    "OtGGGtttRRkO",
+    "OtGgGtttRRkO",
+    "OtGGGttttekO",
+    "OttttttttekO",
+    "OeeeeeeeeekO",
+    "OekOekkOekkO",
+    "OOOOOOOOOOOO",
+    ".OgGGOOOdbO.",
+    ".OOOOOOOOOO.",
 ]
-KET_O = c(64, 28, 24)
-KET = {
-    'O': KET_O, 'R': RED, 'r': RED2, 'h': c(226, 138, 104), 'y': c(112, 46, 38),
-    'a': B3, 'b': B2, 'm': B1, 'd': B0,
+TEA = {
+    'O': O, 'C': CR2, 'c': CR1, 'w': CR0, 'r': RED2, 'R': RED, 'b': B3, 'd': B2,
 }
-KETTLE = [
-    "...ObO...",
-    "..ObaaO..",
-    ".OOOOOOO.",
-    "OmOhrRRyO",
-    ".OOrRRRyO",
-    "..ObbbbmO",
-    "..OrRRRyO",
-    "..OyyyyyO",
-    "...OOOOO.",
+TEAPOT = [         # 11 wide x 9 tall
+    "....Obb....",
+    "...OOOOO...",
+    "..OCCCccO..",
+    "OOOCcccwOO.",
+    "O.OcccccwOO",
+    "O.OcrrrwwOO",
+    "OOOcrrrwwwO",
+    "..OOcwwwwO.",
+    "...OOOOOO..",
 ]
-CUPS_O = c(54, 36, 30)
-CUPS = {'O': CUPS_O, 'c': CR1, 'C': CR2, 'w': CR0, 'o': CF, 't': c(156, 110, 52)}
-CUP = [
-    ".OOOO..",
-    "OCoocO.",
-    "OcccwOO",
-    ".OcwwO.",
-    "OOwwwOO",
+CUPSTACK = [       # 4 wide x 6 tall
+    "OOOO",
+    "OCcO",
+    "OOOO",
+    "OCwO",
+    "OcwO",
+    ".OO.",
 ]
 
 # Joint positions inside each 16px tile (the vanilla bar has a board joint at x=2).
@@ -143,13 +145,12 @@ def contact_shadow(im, x0, x1, y):
         px(im, x, y, SURF_D)
 
 def draw_objects(im):
-    """Items stand on the surface; their tops rise 1px above the back edge (y6)."""
-    contact_shadow(im, 3, 12, 14)
-    blit(im, MACHINE, 3, 5, MACH)          # x3..11, y5..13
-    contact_shadow(im, 15, 24, 14)
-    blit(im, KETTLE, 15, 5, KET)           # x15..23, y5..13
-    contact_shadow(im, 24, 30, 14)
-    blit(im, CUP, 24, 9, CUPS)             # x24..30, y9..13
+    """One group per tile, base resting on the surface at y13, soft contact shadow at y14."""
+    contact_shadow(im, 2, 13, 14)
+    blit(im, MACHINE, 2, 2, MACH)          # x2..13, y2..13 (centred in tile x0-15)
+    contact_shadow(im, 18, 30, 14)
+    blit(im, TEAPOT, 17, 5, TEA)           # x17..27, y5..13
+    blit(im, CUPSTACK, 27, 8, TEA)         # x27..30, y8..13 (overlaps teapot handle column)
 
 def draw_front(im):
     """Counter front face, 32x16 (Buildings layer tiles, carries the shop Action)."""
