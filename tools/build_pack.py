@@ -194,7 +194,12 @@ content = {
   }},
   {"LogName":"Place the redesigned coffee and tea counter in the Saloon","Action":"EditMap","Target":"Maps/Saloon",
    "FromFile":"assets/kiosk-overlay.tmx","FromArea":{"X":0,"Y":0,"Width":2,"Height":2},
-   "ToArea":{"X":16,"Y":18,"Width":2,"Height":2},"PatchMode":"Overlay"}
+   "ToArea":{"X":16,"Y":18,"Width":2,"Height":2},"PatchMode":"Overlay"},
+  {"LogName":"Remove the stool directly left of the DRINKS counter (seat top and legs)","Action":"EditMap","Target":"Maps/Saloon",
+   "MapTiles":[
+     {"Position":{"X":15,"Y":20},"Layer":"Buildings","Remove":True},
+     {"Position":{"X":15,"Y":19},"Layer":"Front","Remove":True}
+   ]}
  ]
 }
 manifest = {
@@ -225,16 +230,16 @@ Coordinates use zero-based tile coordinates.
 | y | x=14 | x=15 | x=16 | x=17 | x=18 | x=19 |
 |---:|---|---|---|---|---|---|
 | 18 | Walkable | Walkable | Walkable (decorative Front counter top) | Walkable (decorative Front counter top) | Gus staging | Existing furniture |
-| 19 | Floor | Floor | **SOLID station 1** | **SOLID station 2** | Floor | Existing furniture |
-| 20 | Walkable route | Stool (solid) | Walkable route | Walkable route | Walkable route | Stool (solid) |
+| 19 | Floor | Floor (stool seat removed) | **SOLID station 1** | **SOLID station 2** | Floor | Existing furniture |
+| 20 | Walkable route | Walkable (stool removed) | Walkable route | Walkable route | Walkable route | Stool (solid) |
 
 Changed tiles and event positions:
 - (16,19): station left tile, Buildings layer, solid, opens shop.
 - (17,19): station right tile, Buildings layer, solid, opens shop.
 - (16,18) and (17,18): counter top, Front layer, decoration only. No Action, no collision, no tile properties.
-- Farmer event start moved to (14,21), away from stool (15,20).
-- Gus event staging moved to (18,18), outside the station footprint.
+- (15,20) Buildings and (15,19) Front: the stool directly left of the counter was removed (cosmetic request).
+- Farmer event start moved to (14,21); Gus event staging moved to (18,18), outside the station footprint.
 
-The solid, interactive station is exactly 2x1 on the Buildings layer. The only added tiles are the two decorative Front-layer tiles at (16,18)-(17,18). Existing stools remain on the base Saloon Buildings layer.
+The solid, interactive station is exactly 2x1 on the Buildings layer. The only added tiles are the two decorative Front-layer tiles at (16,18)-(17,18).
 """, encoding="utf-8")
 print("Generated Drinks.png (160x160), Kiosk.png (32x32), villager dialogue, and a 2x2 kiosk-overlay.tmx.")
