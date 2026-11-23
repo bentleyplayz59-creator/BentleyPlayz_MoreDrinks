@@ -208,6 +208,19 @@ content = {
  ]
 }
 content["Changes"].extend(gideon_npc.patches())
+
+# Build-time guard: event scripts address NPCs by their INTERNAL id (the Data/Characters
+# key), never by display name. Fail the build if the Gus intro refers to Gideon by any
+# other name, or if that id is not registered as an NPC.
+_intro_events = next(c["Entries"] for c in content["Changes"] if c["Target"] == "Data/Events/Saloon")
+_intro = next(v for k, v in _intro_events.items() if k.startswith("BentleyPlayz_MoreDrinks_GusIntro/"))
+_characters = next(c["Entries"] for c in content["Changes"] if c["Target"] == "Data/Characters")
+assert gideon_npc.NPC_ID in _characters, "Gideon is not registered in Data/Characters"
+assert f"Gus 18 18 2 {gideon_npc.NPC_ID} 16 18 2/" in _intro, "intro event must spawn Gideon by internal id"
+assert f"faceDirection {gideon_npc.NPC_ID} 2/" in _intro
+assert f"speak {gideon_npc.NPC_ID} " in _intro
+assert "speak Gideon " not in _intro and "faceDirection Gideon " not in _intro, "intro event uses Gideon's display name instead of his NPC id"
+
 manifest = {
  "Name":"BentleyPlayz More Drinks - Content",
  "Author":"BentleyPlayz","Version":"1.0.1",
