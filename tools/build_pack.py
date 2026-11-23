@@ -79,6 +79,11 @@ kiosk = counter_art.build()
 kiosk.save(ASSETS / "Kiosk.png", optimize=True)
 assert kiosk.size == (32, 32)
 
+# Gideon (Gus's cousin): sprite sheet, portraits and dialogue. Art is derived from the
+# vanilla Gus files by tools/gideon_art.py; NPC data lives in tools/gideon_npc.py.
+import gideon_npc
+gideon_npc.write_assets(ASSETS)
+
 objects, buffs, stock, catalog = {}, {}, [], []
 seen_effects = set()
 buff_icon_count = 48
@@ -190,7 +195,7 @@ content = {
   {"LogName":"Add Willy drink dialogue","Action":"EditData","Target":"Characters/Dialogue/Willy","Entries":{"Saloon_Entry":"A good cup of tea is welcome after a day on the water. Gus has added some new ones."}},
   {"LogName":"Add Wizard drink dialogue","Action":"EditData","Target":"Characters/Dialogue/Wizard","Entries":{"Saloon_Entry":"Gus has expanded his collection of brews. Even ordinary drinks can have curious properties."}},
   {"LogName":"Play Gus's one-time sponsored coffee and tea introduction on the first Saloon visit","Action":"EditData","Target":"Data/Events/Saloon","Entries":{
-    "BentleyPlayz_MoreDrinks_GusIntro/Time 600 2600/!SawEvent BentleyPlayz_MoreDrinks_GusIntro": 'continue/16 18/farmer 14 21 2 Gus 18 18 2/skippable/pause 500/faceDirection Gus 2/faceDirection farmer 0/speak Gus "Hey, @! I have some exciting news for you!"/pause 500/speak Gus "The Stardrop Saloon has a brand-new coffee and tea menu!"/pause 500/speak Gus "We got sponsored by Bentley Playz! He taught me how to make all of these new drinks."/pause 500/speak Gus "There are 50 coffees and 50 teas, and every one has its own special boost."/pause 500/speak Gus "You can try them all at the new kiosk right here in the Saloon!"/pause 500/emote Gus 20/end'
+    "BentleyPlayz_MoreDrinks_GusIntro/Time 600 2600/!SawEvent BentleyPlayz_MoreDrinks_GusIntro": 'continue/16 18/farmer 14 21 2 Gus 18 18 2/skippable/pause 500/faceDirection Gus 2/faceDirection farmer 0/speak Gus "Hey, @! I have some exciting news for you!"/pause 500/speak Gus "The Stardrop Saloon has a brand-new coffee and tea menu!"/pause 500/speak Gus "We got sponsored by Bentley Playz! He taught me how to make all of these new drinks."/pause 500/speak Gus "There are 50 coffees and 50 teas, and every one has its own special boost."/pause 500/speak Gus "You can try them all at the new kiosk right here in the Saloon!"/pause 500/speak Gus "I won\'t be running the drink shop. My cousin, Gideon, will be running it.#$b#He\'ll be here 24/7 whenever you need it."/pause 500/emote Gus 20/end'
   }},
   {"LogName":"Place the redesigned coffee and tea counter in the Saloon","Action":"EditMap","Target":"Maps/Saloon",
    "FromFile":"assets/kiosk-overlay.tmx","FromArea":{"X":0,"Y":0,"Width":2,"Height":2},
@@ -202,6 +207,7 @@ content = {
    ]}
  ]
 }
+content["Changes"].extend(gideon_npc.patches())
 manifest = {
  "Name":"BentleyPlayz More Drinks - Content",
  "Author":"BentleyPlayz","Version":"1.0.1",
@@ -219,7 +225,7 @@ manifest = {
  encoding="utf-8")
 assert len(objects)==len(buffs)==len(stock)==len(catalog)==100
 assert len(seen_effects)==100
-assert len(list(ASSETS.glob("*.png")))==2
+assert len(list(ASSETS.glob("*.png")))==4
 (OUT/"Saloon_Collision_Grid.md").write_text("""# Saloon station collision grid
 
 Map: `Maps/Saloon`
@@ -242,4 +248,5 @@ Changed tiles and event positions:
 
 The solid, interactive station is exactly 2x1 on the Buildings layer. The only added tiles are the two decorative Front-layer tiles at (16,18)-(17,18).
 """, encoding="utf-8")
-print("Generated Drinks.png (160x160), Kiosk.png (32x32), villager dialogue, and a 2x2 kiosk-overlay.tmx.")
+gideon_npc.append_docs(OUT)
+print("Generated Drinks.png (160x160), Kiosk.png (32x32), Gideon sprite/portraits, villager dialogue, and a 2x2 kiosk-overlay.tmx.")

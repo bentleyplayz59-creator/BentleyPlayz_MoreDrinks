@@ -20,6 +20,15 @@ Use Bentley's Fast Food and the other existing BentleyPlayz projects as visual a
 
 The specific visual solution is intentionally left to the developer. See [CLAUDE.md](CLAUDE.md) for the detailed handoff and strict scope boundaries.
 
+## Gideon, Gus's cousin
+
+A new villager, **Gideon**, staffs the More Drinks counter. He is Gus's cousin: same build, a teal jacket with a red tie, and a curly handlebar mustache. He stands at Saloon tile **(16,18)** facing down, behind the counter, all day and night (no schedule file, so he never leaves his Home tile). That tile is the decorative Front-layer counter top, so the solid Buildings station at (16,19)-(17,19) and its shop Action are untouched.
+
+Gus's intro event now also says: "I won't be running the drink shop. My cousin, Gideon, will be running it. He'll be here 24/7 whenever you need it." Saves that already watched the intro can replay it with `debug ebi BentleyPlayz_MoreDrinks_GusIntro`.
+
+- Art: `tools/gideon_art.py` builds the sprite sheet and portraits from the vanilla Gus files in `WHITE_COKE/`.
+- NPC data, dialogue and patches: `tools/gideon_npc.py` (called from `tools/build_pack.py`).
+
 ## Development notes
 
 - Target game version: Stardew Valley 1.6.15.3.
