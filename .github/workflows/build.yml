@@ -89,15 +89,20 @@ jobs:
           event = next(v for k, v in events.items() if k.startswith("BentleyPlayz_MoreDrinks_GusIntro/"))
           assert "farmer 14 21" in event and "Gus 18 18" in event
           station = root/"Content/assets/Kiosk.png"
-          assert Image.open(station).size == (32, 16)
+          assert Image.open(station).size == (32, 32)
           overlay = ET.parse(root/"Content/assets/kiosk-overlay.tmx").getroot()
-          assert overlay.attrib["width"] == "2" and overlay.attrib["height"] == "1"
+          assert overlay.attrib["width"] == "2" and overlay.attrib["height"] == "2"
           layers = {layer.attrib["name"]: layer for layer in overlay.findall("layer")}
+          front = layers["Front"]
           buildings = layers["Buildings"]
-          assert buildings.attrib["width"] == "2" and buildings.attrib["height"] == "1"
-          assert buildings.find("data").text.strip() == "1,2"
-          assert "2x1" in (root/"Content/Saloon_Collision_Grid.md").read_text()
-          print("Validated: 100 drinks, 100 buffs, unlimited stock, safe event staging, and an exact 2x1 solid station.")
+          assert front.attrib["width"] == front.attrib["height"] == "2"
+          assert front.find("data").text.strip() == "1,2,0,0"
+          assert buildings.attrib["width"] == buildings.attrib["height"] == "2"
+          assert buildings.find("data").text.strip() == "0,0,3,4"
+          # Only the bottom Buildings row is solid and interactive; the top Front row is decorative.
+          assert "2 columns × 1 row" in (root/"Content/Saloon_Collision_Grid.md").read_text()
+          assert "decoration only" in (root/"Content/Saloon_Collision_Grid.md").read_text()
+          print("Validated: 100 drinks, 100 buffs, unlimited stock, safe event staging, 32x32 kiosk art, 2x2 visual overlay, and a 2x1 solid shop footprint.")
           PY
       - name: Upload installable mod folder as artifact
         uses: actions/upload-artifact@v4
